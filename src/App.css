@@ -7,6 +7,28 @@
   pointer-events: none;
 }
 
+.products-container {
+  background-color: lightblue;
+  padding: 20px;
+}
+
+.contact-container {
+  background-color: lightgreen;
+  padding: 20px;
+}
+
+.home-container {
+  background-color: lightyellow;
+  padding: 20px;
+}
+
+.about-container {
+  background-color: lightgray;
+  padding: 20px;
+}
+
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
