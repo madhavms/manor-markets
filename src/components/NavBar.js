@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,6 +8,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,19 +21,30 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     textAlign: "center",
   },
+  timeRemaining: {
+    textAlign: "right",
+    marginRight: theme.spacing(2),
+  },
 }));
 
-const ManorMarketsNavbar = ({ isLoggedIn, logout }) => {
+const ManorMarketsNavbar = ({ logout }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const [isLoggedIn, setIsLoggedIn, tokenValidity, timeRemaining] =
+    useContext(AuthContext);
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    if (!isLoggedIn || !tokenValidity) setAnchorEl(null);
+  }, [isLoggedIn, tokenValidity]);
+  console.log("Time remainer kk", timeRemaining);
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -40,6 +52,11 @@ const ManorMarketsNavbar = ({ isLoggedIn, logout }) => {
           <Typography variant="h6" className={classes.title}>
             Manor Markets
           </Typography>
+          {isLoggedIn && (
+            <Typography variant="h8" className={classes.timeRemaining}>
+              Time Remaining: {timeRemaining}
+            </Typography>
+          )}
           {isLoggedIn && (
             <IconButton
               edge="end"
@@ -57,7 +74,7 @@ const ManorMarketsNavbar = ({ isLoggedIn, logout }) => {
             id="simple-menu"
             anchorEl={anchorEl}
             keepMounted
-            open={Boolean(anchorEl)}
+            open={!!anchorEl}
             onClose={handleClose}
           >
             <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
