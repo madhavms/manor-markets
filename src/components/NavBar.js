@@ -22,10 +22,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ManorMarketsNavbar = () => {
+const ManorMarketsNavbar = ({ isLoggedIn, logout }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -41,17 +40,19 @@ const ManorMarketsNavbar = () => {
           <Typography variant="h6" className={classes.title}>
             Manor Markets
           </Typography>
-          <IconButton
-            edge="end"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            <MenuIcon />
-          </IconButton>
+          {isLoggedIn && (
+            <IconButton
+              edge="end"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}
@@ -79,6 +80,19 @@ const ManorMarketsNavbar = () => {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <MenuItem onClick={handleClose}>Contact</MenuItem>
+            </Link>
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  logout();
+                }}
+              >
+                Log Out
+              </MenuItem>
             </Link>
           </Menu>
         </Toolbar>
