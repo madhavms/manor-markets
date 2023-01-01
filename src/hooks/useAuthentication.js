@@ -1,25 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 const useAuthentication = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true' || false)
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true" || false
+  );
   const login = () => {
-    if(!isLoggedIn) 
-    {
-        setIsLoggedIn(true)
-        localStorage.setItem('isLoggedIn', true)
-    }
-  }
+    console.log("login");
+    setIsLoggedIn(true);
+    localStorage.setItem("isLoggedIn", true);
+  };
 
   const logout = () => {
-    if(isLoggedIn) 
-    {
-        setIsLoggedIn(false)
-        localStorage.setItem('isLoggedIn', false)
-    }
-  }
-  
-  return {isLoggedIn, login, logout}
-}
+    setIsLoggedIn(false);
+    localStorage.setItem("isLoggedIn", false);
+  };
 
-export default useAuthentication
+  return { isLoggedIn, login, logout };
+};
+
+export default useAuthentication;
