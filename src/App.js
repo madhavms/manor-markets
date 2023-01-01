@@ -12,12 +12,12 @@ import { AuthContext } from "./components/AuthContext";
 
 function App() {
   const {login, logout, error} = useAuthentication();
-  const [isLoggedIn] = useContext(AuthContext);
+  const [isLoggedIn, tokenValidity, timeRemaining] = useContext(AuthContext);
 
   return (
     <BrowserRouter>
-      <ManorMarketsNavbar {...{ isLoggedIn, logout }} />
-      {isLoggedIn ? (
+      <ManorMarketsNavbar {...{ isLoggedIn, logout, tokenValidity, timeRemaining }} />
+      {isLoggedIn && tokenValidity ? (
         <Routes>
           <Route exact path="*" element={<Home />} />
           <Route exact path="/about" element={<About />} />
