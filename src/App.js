@@ -1,14 +1,19 @@
 import "./App.css";
 import ManorMarketsNavbar from "./components/NavBar";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
 import About from "./components/About";
 import { Products, Contact } from "./components/ProductsContact";
 import LoginScreen from "./components/Login";
 import useAuthentication from "./hooks/useAuthentication";
+import { useContext } from "react";
+import { AuthContext } from "./components/AuthContext";
+
 
 function App() {
-  const { isLoggedIn, login, logout } = useAuthentication();
+  const {login, logout, error} = useAuthentication();
+  const [isLoggedIn] = useContext(AuthContext);
+
   return (
     <BrowserRouter>
       <ManorMarketsNavbar {...{ isLoggedIn, logout }} />
@@ -21,7 +26,7 @@ function App() {
         </Routes>
       ) : (
         <Routes>
-          <Route path="*" element={<LoginScreen login={login} />} />
+          <Route path="*" element={<LoginScreen login={login} error={error} />} />
         </Routes>
       )}
     </BrowserRouter>
