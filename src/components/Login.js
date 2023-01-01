@@ -26,11 +26,7 @@ const [username, setUsername] = useState("");
 const [password, setPassword] = useState("");
 const [errorMessage, setErrorMessage] = useState("");
 
-useEffect(() => {
-if (isLoggedIn) {
-navigate("/");
-}
-}, [isLoggedIn]);
+
 
 const handleSubmit = (e) => {
 e.preventDefault();
@@ -38,7 +34,8 @@ if (!username || !password) {
 setErrorMessage("Please enter a username and password");
 return;
 }
-login({ username, password });
+login({ username, password, setErrorMessage });
+navigate("/");
 };
 
 return (
