@@ -85,7 +85,7 @@ def generate_password_hash(password: str):
 def create_access_token(user_id: int):
     payload = {
         "user_id": user_id,
-        "exp": datetime.utcnow() + timedelta(seconds=5)
+        "exp": datetime.utcnow() + timedelta(minutes=10)
     }
     secret_key = bytes(SECRET_KEY, "utf-8")
     encoded_jwt = encode(payload, secret_key, algorithm="HS256")
