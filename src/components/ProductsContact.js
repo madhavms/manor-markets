@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
 
 
 export function Products() {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn, tokenValidity] = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!tokenValidity) navigate("/login");
+  }, [tokenValidity]);
   return (
     <div className="products-container">
       <h1>Products</h1>
@@ -11,6 +19,12 @@ export function Products() {
 }
 
 export function Contact() {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn, tokenValidity] = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!tokenValidity) navigate("/login");
+  }, [tokenValidity]);
   return (
     <div className="contact-container">
       <h1>Contact</h1>
