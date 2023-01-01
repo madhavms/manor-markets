@@ -16,6 +16,7 @@ const useAuthentication = () => {
     if (response.ok) {
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("sessionValidity", true);
       localStorage.setItem("AccessToken", JSON.stringify(data));
     } else {
       console.log("Error:", data.detail);
