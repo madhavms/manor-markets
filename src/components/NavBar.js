@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   timeRemaining: {
     textAlign: "right",
     marginRight: theme.spacing(2),
+    fontSize: "0.8em",
   },
 }));
 
@@ -44,17 +45,17 @@ const ManorMarketsNavbar = ({ logout }) => {
   useEffect(() => {
     if (!isLoggedIn || !tokenValidity) setAnchorEl(null);
   }, [isLoggedIn, tokenValidity]);
-  console.log("Time remainer kk", timeRemaining);
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography style={{ marginLeft: '16%' }} variant="h6" className={classes.title}>
             Manor Markets
           </Typography>
           {isLoggedIn && (
-            <Typography variant="h10" className={classes.timeRemaining}>
-              Time Remaining: {timeRemaining}
+            <Typography style={{ marginRight: '40px' }} variant="h10" className={classes.timeRemaining}>
+              Session Expiry: {timeRemaining}
             </Typography>
           )}
           {isLoggedIn && (
@@ -80,6 +81,7 @@ const ManorMarketsNavbar = ({ logout }) => {
             <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
               <MenuItem onClick={handleClose}>Home</MenuItem>
             </Link>
+
             <Link
               to="/about"
               style={{ textDecoration: "none", color: "inherit" }}
