@@ -17,7 +17,10 @@ export const useSession = ({
         const timeRemainingInSeconds = ((decodedToken.exp * 1000) - Date.now()) / 1000;
         const minutes = Math.floor(timeRemainingInSeconds / 60);
         const seconds = Math.floor(timeRemainingInSeconds % 60);
-        setTimeRemaining(`${minutes}:${seconds}`);
+        const secondString = seconds < 10 ? `0${seconds}` : `${seconds}`
+        const minuteString = minutes < 10 ? `0${minutes}` : `${minutes}`
+        const timeOutput = `${minuteString}:${secondString}`;
+        setTimeRemaining(timeOutput);
         // Check the exp claim to see if the token has expired
         if (decodedToken.exp * 1000 < Date.now()) {
           // The token has expired, so log out the user
