@@ -8,8 +8,8 @@ function About() {
 
   useEffect(() => {
     if (!tokenValidity) {
-      navigate("/login")
-    };
+      navigate("/login");
+    }
   }, [tokenValidity]);
   return (
     <div className="about-container">
