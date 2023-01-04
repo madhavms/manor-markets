@@ -13,7 +13,6 @@ import SessionValidator from "./components/SessionValidator";
 function App() {
   const { login, logout, error } = useAuthentication();
   const { isLoggedIn, tokenValidity, timeRemaining } = useContext(AuthContext);
-
   return (
     <BrowserRouter>
       <ManorMarketsNavbar
