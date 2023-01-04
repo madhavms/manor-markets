@@ -9,8 +9,10 @@ export const useSession = ({
   const accessTokenExpiryTime = (accessToken) => {
     const decodedToken = jwtDecode(accessToken);
     const timeRemainingInSeconds = ((decodedToken.exp * 1000) - Date.now()) / 1000;
-    const minutes = Math.floor(timeRemainingInSeconds / 60);
-    const seconds = Math.floor(timeRemainingInSeconds % 60);
+    let minutes = Math.floor(timeRemainingInSeconds / 60);
+    let seconds = Math.floor(timeRemainingInSeconds % 60);
+    minutes = minutes < 0 ? 0 : minutes;
+    seconds = seconds < 0 ? 0 : seconds;
     const secondString = seconds < 10 ? `0${seconds}` : `${seconds}`
     const minuteString = minutes < 10 ? `0${minutes}` : `${minutes}`
     const timeOutput = `${minuteString}:${secondString}`;
