@@ -5,7 +5,7 @@ import { AuthContext } from "./AuthContext";
 
 export function Products() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn, tokenValidity] = useContext(AuthContext);
+  const {tokenValidity} = useContext(AuthContext);
 
   useEffect(() => {
     if (!tokenValidity) navigate("/login");
@@ -20,7 +20,7 @@ export function Products() {
 
 export function Contact() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn, tokenValidity] = useContext(AuthContext);
+  const {tokenValidity} = useContext(AuthContext);
 
   useEffect(() => {
     if (!tokenValidity) navigate("/login");
