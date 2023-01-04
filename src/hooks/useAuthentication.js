@@ -1,10 +1,8 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../components/AuthContext";
 
-
 const useAuthentication = () => {
-  const accessToken = localStorage.getItem("AccessToken");
-  const [isLoggedIn, setIsLoggedIn, tokenValidity] = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   const login = async ({ username, password, setErrorMessage }) => {
     const response = await fetch("http://localhost:8000/login", {
@@ -26,7 +24,7 @@ const useAuthentication = () => {
 
   const logout = () => {
     setIsLoggedIn(false);
-    localStorage.setItem("AccessToken", '');
+    localStorage.setItem("AccessToken", "");
   };
 
   return { isLoggedIn, login, logout };
