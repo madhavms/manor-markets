@@ -19,7 +19,7 @@ margin: theme.spacing(3, 0, 2),
 },
 }));
 
-function LoginScreen({login, isLoggedIn}) {
+function LoginScreen({login}) {
 const classes = useStyles();
 const navigate = useNavigate();
 const [username, setUsername] = useState("");
