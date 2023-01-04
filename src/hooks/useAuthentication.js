@@ -27,7 +27,9 @@ const useAuthentication = () => {
 
   const logout = () => {
     setIsLoggedIn(false);
-    localStorage.setItem("AccessToken", "");
+    localStorage.removeItem("AccessToken");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("sessionValidity");
   };
 
   return { isLoggedIn, login, logout };
