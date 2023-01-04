@@ -54,7 +54,7 @@ const ManorMarketsNavbar = ({ logout }) => {
             Manor Markets
           </Typography>
           {isLoggedIn && (
-            <Typography style={{ marginRight: '40px' }} variant="h10" className={classes.timeRemaining}>
+            <Typography style={{ marginRight: '40px' }} className={classes.timeRemaining}>
               Session Expiry: {timeRemaining}
             </Typography>
           )}
