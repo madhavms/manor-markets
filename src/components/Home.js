@@ -4,7 +4,7 @@ import { AuthContext } from "./AuthContext";
 
 function Home() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn, tokenValidity] = useContext(AuthContext);
+  const {isLoggedIn, tokenValidity} = useContext(AuthContext);
 
   useEffect(() => {
     if (!tokenValidity && !isLoggedIn) navigate("/login");
