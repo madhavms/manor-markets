@@ -50,7 +50,7 @@ const ManorMarketsNavbar = ({ logout }) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography style={{ marginLeft: '16%' }} variant="h6" className={classes.title}>
+          <Typography style={isLoggedIn?{ marginLeft: '16%' }:{ marginLeft:0 }} variant="h6" className={classes.title}>
             Manor Markets
           </Typography>
           {isLoggedIn && (
