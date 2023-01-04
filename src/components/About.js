@@ -4,7 +4,7 @@ import { AuthContext } from "./AuthContext";
 
 function About() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn, tokenValidity] = useContext(AuthContext);
+  const {tokenValidity} = useContext(AuthContext);
 
   useEffect(() => {
     if (!tokenValidity) {
