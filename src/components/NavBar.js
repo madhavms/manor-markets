@@ -35,7 +35,7 @@ const ManorMarketsNavbar = ({ logout }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const [isLoggedIn, setIsLoggedIn, tokenValidity, timeRemaining] =
+  const {isLoggedIn, tokenValidity, timeRemaining} =
     useContext(AuthContext);
 
   const handleClose = () => {
