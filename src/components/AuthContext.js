@@ -14,7 +14,6 @@ export const AuthContextProvider = (props) => {
     setTokenValidity,
     setIsLoggedIn,
   });
-  console.log(timeRemaining, "remain");
   return (
     <AuthContext.Provider
       value={{ isLoggedIn, setIsLoggedIn, tokenValidity, timeRemaining }}
