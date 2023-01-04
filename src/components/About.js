@@ -3,14 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
 function About() {
-  const navigate = useNavigate();
-  const {tokenValidity} = useContext(AuthContext);
-
-  useEffect(() => {
-    if (!tokenValidity) {
-      navigate("/login");
-    }
-  }, [tokenValidity]);
   return (
     <div className="about-container">
       <h1>About Us</h1>
