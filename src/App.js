@@ -12,7 +12,7 @@ import { AuthContext } from "./components/AuthContext";
 
 function App() {
   const {login, logout, error} = useAuthentication();
-  const [isLoggedIn, tokenValidity, timeRemaining] = useContext(AuthContext);
+  const {isLoggedIn, tokenValidity, timeRemaining} = useContext(AuthContext);
 
   return (
     <BrowserRouter>
