@@ -11,12 +11,10 @@ export const AuthContextProvider = (props) => {
 
   const [timeRemaining] = useSession({
     tokenValidity,
-    setTokenValidity
+    setTokenValidity,
   });
   return (
-    <AuthContext.Provider
-      value={{tokenValidity, timeRemaining }}
-    >
+    <AuthContext.Provider value={{ tokenValidity, timeRemaining }}>
       {props.children}
     </AuthContext.Provider>
   );
