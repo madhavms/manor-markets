@@ -9,6 +9,7 @@ import bcrypt
 from jwt import encode
 from datetime import datetime, timedelta
 import json
+import secrets
 
 
 app = FastAPI()
@@ -38,6 +39,16 @@ class User(Base):
     username = Column(String, index=True, unique=True)
     password_hash = Column(String)
 
+# define a new model for the refresh token
+
+
+class RefreshToken(Base):
+    __tablename__ = "refresh_tokens"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer)
+    token = Column(String, unique=True)
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -56,6 +67,18 @@ class Credentials(BaseModel):
     username: str
     password: str
 
+# define a request model for the refresh token endpoint
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str
+
+# define a response model for the refresh token endpoint
+
+
+class RefreshTokenResponse(BaseModel):
+    access_token: str
+
 
 @app.post("/users/", response_model=UserOut)
 def create_user(user: UserCreate):
@@ -65,10 +88,16 @@ def create_user(user: UserCreate):
     if existing_user:
         raise HTTPException(status_code=400, detail="Username already exists")
     new_user = User(username=user.username,
-                    password_hash=generate_password_hash(user.password))
+                    password_hash=generate_password_hash(user.password)
+                    )
     session.add(new_user)
     session.commit()
-    return UserOut(id=new_user.id, username=new_user.username)
+    # generate a refresh token for the new user
+    refresh_token = generate_refresh_token(new_user)
+    return {
+        "id": new_user.id,
+        "username": new_user.username
+    }
 
 
 @app.post("/login")
@@ -78,7 +107,23 @@ def login(credentials: Credentials):
         raise HTTPException(
             status_code=401, detail="Incorrect username or password")
     print(f'The user id is {user.id}')
-    return {"access_token": create_access_token(user.id)}
+    return {"access_token": create_access_token(user.id), "refresh_token": get_token_from_user(user.id)}
+
+
+@app.post("/refresh-token")
+def refresh_token(request: RefreshTokenRequest):
+    print("request=", request)
+    session = Session()
+    refresh_token = session.query(RefreshToken).filter(
+        RefreshToken.token == request.refresh_token).first()
+    if not refresh_token:
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+    user = session.query(User).get(refresh_token.user_id)
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+    access_token = create_access_token(user.id)
+    print("access_token=", access_token)
+    return {"access_token": access_token}
 
 
 def authenticate_user(username: str, password: str):
@@ -98,8 +143,31 @@ def generate_password_hash(password: str):
 def create_access_token(user_id: int):
     payload = {
         "user_id": user_id,
-        "exp": datetime.utcnow() + timedelta(minutes=15)
+        "exp": datetime.utcnow() + timedelta(minutes=10)
     }
     secret_key = bytes(SECRET_KEY, "utf-8")
     encoded_jwt = encode(payload, secret_key, algorithm="HS256")
     return encoded_jwt
+
+
+def get_token_from_user(user_id: int):
+    session = Session()
+    token = session.query(RefreshToken).filter(
+        RefreshToken.user_id == user_id).first()
+    return token
+
+
+def generate_refresh_token(user: User):
+    session = Session()
+    # check if the user already has a refresh token
+    existing_token = session.query(RefreshToken).filter(
+        RefreshToken.user_id == user.id).first()
+    if existing_token:
+        # if the user already has a refresh token, delete it
+        session.delete(existing_token)
+        session.commit()
+    # create a new refresh token
+    new_token = RefreshToken(user_id=user.id, token=secrets.token_hex(32))
+    session.add(new_token)
+    session.commit()
+    return new_token.token
