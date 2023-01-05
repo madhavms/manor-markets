@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { accessTokenExpiryTime, refreshAccessToken } from "../utils/SessionUtils";
 
-const useSession = ({ setTokenValidity, setIsLoggedIn }) => {
+const useSession = ({ setTokenValidity }) => {
   const [timeRemaining, setTimeRemaining] = useState("00:00");
 
   useEffect(() => {
@@ -18,7 +18,6 @@ const useSession = ({ setTokenValidity, setIsLoggedIn }) => {
           localStorage.removeItem("accessToken");
           setTokenValidity(false);
           localStorage.removeItem("sessionValidity");
-          setIsLoggedIn(false);
         } else if (timeRemainingInSeconds < 0 && !!refreshToken) {
           refreshAccessToken();
         }
@@ -28,7 +27,6 @@ const useSession = ({ setTokenValidity, setIsLoggedIn }) => {
         localStorage.removeItem("accessToken");
         setTokenValidity(false);
         localStorage.removeItem("sessionValidity");
-        setIsLoggedIn(false);
       }
     }, 1000);
     return () => clearInterval(id);
