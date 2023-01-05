@@ -35,8 +35,7 @@ const ManorMarketsNavbar = ({ logout }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const {tokenValidity, timeRemaining} =
-    useContext(AuthContext);
+  const { tokenValidity, timeRemaining } = useContext(AuthContext);
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -50,11 +49,18 @@ const ManorMarketsNavbar = ({ logout }) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography style={tokenValidity?{ marginLeft: '16%' }:{ marginLeft:0 }} variant="h6" className={classes.title}>
+          <Typography
+            style={tokenValidity ? { marginLeft: "16%" } : { marginLeft: 0 }}
+            variant="h6"
+            className={classes.title}
+          >
             Manor Markets
           </Typography>
           {tokenValidity && (
-            <Typography style={{ marginRight: '40px' }} className={classes.timeRemaining}>
+            <Typography
+              style={{ marginRight: "40px" }}
+              className={classes.timeRemaining}
+            >
               Session Expiry: {timeRemaining}
             </Typography>
           )}
