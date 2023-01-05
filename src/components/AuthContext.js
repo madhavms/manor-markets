@@ -8,15 +8,14 @@ export const AuthContextProvider = (props) => {
   const [tokenValidity, setTokenValidity] = useState(
     localStorage.getItem("sessionValidity") || false
   );
-  const [isLoggedIn, setIsLoggedIn] = useState(tokenValidity || false);
+
   const [timeRemaining] = useSession({
     tokenValidity,
-    setTokenValidity,
-    setIsLoggedIn,
+    setTokenValidity
   });
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, tokenValidity, timeRemaining }}
+      value={{tokenValidity, timeRemaining }}
     >
       {props.children}
     </AuthContext.Provider>
