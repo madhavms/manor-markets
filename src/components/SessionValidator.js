@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
 const SessionValidator = ({ children }) => {
-  const {tokenValidity } = useContext(AuthContext);
+  const { tokenValidity } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const SessionValidator = ({ children }) => {
       navigate("/login");
     }
   }, [tokenValidity]);
-  return (children);
+  return children;
 };
 
 export default SessionValidator;
