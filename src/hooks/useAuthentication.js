@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { AuthContext } from "../components/AuthContext";
 
 const useAuthentication = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   const login = async ({ username, password, setErrorMessage }) => {
     try {
@@ -14,8 +13,6 @@ const useAuthentication = () => {
       const data = await response.json();
       const { access_token, refresh_token } = data;
       if (response.ok) {
-        setIsLoggedIn(true);
-        localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("sessionValidity", true);
         localStorage.setItem("accessToken", access_token);
         localStorage.setItem("refreshToken", refresh_token.token);
@@ -28,14 +25,12 @@ const useAuthentication = () => {
   };
 
   const logout = () => {
-    setIsLoggedIn(false);
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("sessionValidity");
     localStorage.removeItem("refreshToken");
   };
 
-  return { isLoggedIn, login, logout };
+  return { login, logout };
 };
 
 export default useAuthentication;
