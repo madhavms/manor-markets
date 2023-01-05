@@ -12,13 +12,13 @@ import SessionValidator from "./components/SessionValidator";
 
 function App() {
   const { login, logout, error } = useAuthentication();
-  const { isLoggedIn, tokenValidity, timeRemaining } = useContext(AuthContext);
+  const { tokenValidity, timeRemaining } = useContext(AuthContext);
   return (
     <BrowserRouter>
       <ManorMarketsNavbar
-        {...{ isLoggedIn, logout, tokenValidity, timeRemaining }}
+        {...{logout, tokenValidity, timeRemaining }}
       />
-      {isLoggedIn && tokenValidity ? (
+      {tokenValidity ? (
         <Routes>
           <Route exact path="*" element={<SessionValidator><Home /></SessionValidator>} />
           <Route exact path="/about" element={<SessionValidator><About /></SessionValidator>} />
