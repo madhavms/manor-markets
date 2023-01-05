@@ -12,11 +12,13 @@ const useAuthentication = () => {
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.json();
+      const { access_token, refresh_token } = data;
       if (response.ok) {
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("sessionValidity", true);
-        localStorage.setItem("AccessToken", JSON.stringify(data));
+        localStorage.setItem("accessToken", access_token);
+        localStorage.setItem("refreshToken", refresh_token.token);
       } else {
         setErrorMessage(data.detail);
       }
@@ -27,9 +29,10 @@ const useAuthentication = () => {
 
   const logout = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem("AccessToken");
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("sessionValidity");
+    localStorage.removeItem("refreshToken");
   };
 
   return { isLoggedIn, login, logout };
