@@ -1,46 +1,39 @@
 import React, { useEffect, useState } from "react";
-import jwtDecode from "jwt-decode";
+import { accessTokenExpiryTime, refreshAccessToken } from "../utils/SessionUtils";
 
-export const useSession = ({
-  setTokenValidity,
-  setIsLoggedIn,
-}) => {
+const useSession = ({ setTokenValidity, setIsLoggedIn }) => {
+  const [timeRemaining, setTimeRemaining] = useState("00:00");
 
-  const accessTokenExpiryTime = (accessToken) => {
-    const decodedToken = jwtDecode(accessToken);
-    const timeRemainingInSeconds = ((decodedToken.exp * 1000) - Date.now()) / 1000;
-    let minutes = Math.floor(timeRemainingInSeconds / 60);
-    let seconds = Math.floor(timeRemainingInSeconds % 60);
-    minutes = minutes < 0 ? 0 : minutes;
-    seconds = seconds < 0 ? 0 : seconds;
-    const secondString = seconds < 10 ? `0${seconds}` : `${seconds}`
-    const minuteString = minutes < 10 ? `0${minutes}` : `${minutes}`
-    const timeOutput = `${minuteString}:${secondString}`;
-    return {timeOutput,timeRemainingInSeconds}
-  }
-
-  const [timeRemaining, setTimeRemaining] = useState('00:00');
   useEffect(() => {
     const id = setInterval(() => {
-      // Decode the access token to get the payload
-      const accessToken = localStorage.getItem("AccessToken");
+      const accessToken = localStorage.getItem("accessTtoken");
+      const refreshToken = localStorage.getItem("refreshToken");
+
       if (!!accessToken) {
-        const {timeOutput,timeRemainingInSeconds} = accessTokenExpiryTime(accessToken);
+        const { timeOutput, timeRemainingInSeconds } = accessTokenExpiryTime(accessToken);
         setTimeRemaining(timeOutput);
-        // Check the exp claim to see if the token has expired
-        if (timeRemainingInSeconds < 0) {
-          // The token has expired, so log out the user
-          localStorage.removeItem("AccessToken");
+        setTokenValidity(true);
+
+        if (timeRemainingInSeconds < 0 && !refreshToken) {
+          localStorage.removeItem("accessToken");
           setTokenValidity(false);
           localStorage.removeItem("sessionValidity");
           setIsLoggedIn(false);
-        } else {
-          setTokenValidity(true);
+        } else if (timeRemainingInSeconds < 0 && !!refreshToken) {
+          refreshAccessToken();
         }
+      } else if (!accessToken && !!refreshToken) {
+        refreshAccessToken();
+      } else {
+        localStorage.removeItem("accessToken");
+        setTokenValidity(false);
+        localStorage.removeItem("sessionValidity");
+        setIsLoggedIn(false);
       }
     }, 1000);
     return () => clearInterval(id);
   }, []);
+
   return [timeRemaining];
 };
 
