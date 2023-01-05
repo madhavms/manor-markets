@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
 const SessionValidator = ({ children }) => {
-  const { isLoggedIn, tokenValidity } = useContext(AuthContext);
+  const {tokenValidity } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!tokenValidity && !isLoggedIn) {
+    if (!tokenValidity) {
       navigate("/login");
     }
-  }, [tokenValidity, isLoggedIn]);
+  }, [tokenValidity]);
   return (children);
 };
 
