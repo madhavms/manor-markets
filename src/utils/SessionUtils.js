@@ -3,7 +3,6 @@ import jwtDecode from "jwt-decode";
 export const refreshAccessToken = async () => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
-      console.log(refresh_token);
       const response = await fetch("http://localhost:8000/refresh-token", {
         method: "POST",
         body: JSON.stringify({ "refresh_token": refreshToken }),
