@@ -35,7 +35,7 @@ const ManorMarketsNavbar = ({ logout }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const {isLoggedIn, tokenValidity, timeRemaining} =
+  const {tokenValidity, timeRemaining} =
     useContext(AuthContext);
 
   const handleClose = () => {
@@ -43,22 +43,22 @@ const ManorMarketsNavbar = ({ logout }) => {
   };
 
   useEffect(() => {
-    if (!isLoggedIn || !tokenValidity) setAnchorEl(null);
-  }, [isLoggedIn, tokenValidity]);
+    if (!tokenValidity) setAnchorEl(null);
+  }, [tokenValidity]);
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography style={isLoggedIn?{ marginLeft: '16%' }:{ marginLeft:0 }} variant="h6" className={classes.title}>
+          <Typography style={tokenValidity?{ marginLeft: '16%' }:{ marginLeft:0 }} variant="h6" className={classes.title}>
             Manor Markets
           </Typography>
-          {isLoggedIn && (
+          {tokenValidity && (
             <Typography style={{ marginRight: '40px' }} className={classes.timeRemaining}>
               Session Expiry: {timeRemaining}
             </Typography>
           )}
-          {isLoggedIn && (
+          {tokenValidity && (
             <IconButton
               edge="end"
               className={classes.menuButton}
