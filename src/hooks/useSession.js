@@ -6,7 +6,7 @@ const useSession = ({ setTokenValidity, setIsLoggedIn }) => {
 
   useEffect(() => {
     const id = setInterval(() => {
-      const accessToken = localStorage.getItem("accessTtoken");
+      const accessToken = localStorage.getItem("accessToken");
       const refreshToken = localStorage.getItem("refreshToken");
 
       if (!!accessToken) {
