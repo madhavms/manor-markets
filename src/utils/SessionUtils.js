@@ -9,9 +9,7 @@ export const refreshAccessToken = async () => {
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.json();
-      console.log(data);
       const {access_token} = data;
-      console.log(access_token);
       localStorage.setItem('accessToken', access_token);
     } catch (error) {
       console.error(error);
