@@ -1,12 +1,12 @@
 import "./App.css";
 import ManorMarketsNavbar from "./components/NavBar";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import About from "./components/About";
 import { Products, Contact } from "./components/ProductsContact";
 import LoginScreen from "./components/Login";
 import useAuthentication from "./hooks/useAuthentication";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "./components/AuthContext";
 import SessionValidator from "./components/SessionValidator";
 
