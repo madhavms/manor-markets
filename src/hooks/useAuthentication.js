@@ -1,8 +1,4 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../components/AuthContext";
-
 const useAuthentication = () => {
-
   const login = async ({ username, password, setErrorMessage }) => {
     try {
       const response = await fetch("http://localhost:8000/login", {
