@@ -17,4 +17,6 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const vitalParams = {FCP: 'First Contentful Paint', LCP: 'Largest Contentful Paint', FID: 'First Input Delay', CLS: 'Cumulative Layout Shift', TTFB: 'Time to First Byte'};
+const logWebVitals = (metric) => console.log(`Web Vitals: ${vitalParams[metric.name]} Value = ${metric.value}ms`);
+reportWebVitals(logWebVitals);
